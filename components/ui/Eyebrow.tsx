@@ -1,4 +1,4 @@
-import { M } from "@/lib/palette";
+import { Maroon } from "@/lib/palette";
 
 export default function Eyebrow({
   children,
@@ -8,11 +8,20 @@ export default function Eyebrow({
   light?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3 mb-4">
-      <span className="w-6 h-px" style={{ background: light ? M[400] : M[700] }} />
+    <div className="flex items-center gap-3 mb-5">
       <span
-        className="text-[11px] font-bold tracking-[0.22em] uppercase"
-        style={{ color: light ? M[300] : M[700] }}
+        className="w-5 h-px"
+        style={{ background: light ? "rgba(255,255,255,0.35)" : Maroon[700] }}
+      />
+      <span
+        style={{
+          fontFamily: "'Inter', sans-serif",
+          fontSize: "10px",
+          fontWeight: 600,
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          color: light ? "rgba(255,255,255,0.5)" : Maroon[700],
+        }}
       >
         {children}
       </span>

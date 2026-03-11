@@ -1,4 +1,6 @@
-import { M, N } from "@/lib/palette";
+"use client";
+
+import { Maroon } from "@/lib/palette";
 import { UNI, STATS } from "@/lib/data";
 import Eyebrow from "@/components/ui/Eyebrow";
 
@@ -6,124 +8,171 @@ export default function Hero({ dark }: { dark: boolean }) {
   return (
     <section
       id="beranda"
-      className="relative min-h-screen flex items-end overflow-hidden"
+      className="relative min-h-screen flex items-center overflow-hidden"
       style={{
         background: dark
-          ? `linear-gradient(155deg, #1a0303 0%, #0f0f0f 55%, #150101 100%)`
-          : `linear-gradient(155deg, #6b1a1a 0%, #8b2a2a 35%, #7a2020 70%, #5e1414 100%)`,
+          ? `linear-gradient(160deg, #1c0808 0%, #120404 45%, #0e0c0c 100%)`
+          : `linear-gradient(160deg, #5a0a0a 0%, #7a1212 40%, #6b0e0e 100%)`,
       }}
     >
-      {/* noise/grain overlay — mengurangi saturasi agar tidak perih */}
+      {/* fine grid */}
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E")`,
-          backgroundRepeat: "repeat",
-          backgroundSize: "128px 128px",
+          backgroundImage: `
+            repeating-linear-gradient(0deg,   transparent, transparent 79px, rgba(255,255,255,0.025) 79px, rgba(255,255,255,0.025) 80px),
+            repeating-linear-gradient(90deg,  transparent, transparent 79px, rgba(255,255,255,0.025) 79px, rgba(255,255,255,0.025) 80px)
+          `,
         }}
       />
 
-      {/* fine grid texture */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,0.025) 59px,rgba(255,255,255,0.025) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,0.025) 59px,rgba(255,255,255,0.025) 60px)`,
-        }}
-      />
-
-      {/* softening overlay — desaturate + darken */}
+      {/* dark desaturating overlay */}
       <div
         className="absolute inset-0"
         style={{
           background: dark
-            ? "rgba(0,0,0,0.5)"
-            : "linear-gradient(155deg, rgba(20,8,8,0.55) 0%, rgba(10,4,4,0.4) 50%, rgba(15,5,5,0.5) 100%)",
+            ? "rgba(0,0,0,0.52)"
+            : "rgba(10,4,4,0.42)",
         }}
       />
 
       {/* radial vignette */}
       <div
         className="absolute inset-0"
-        style={{
-          background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)",
-        }}
+        style={{ background: "radial-gradient(ellipse at 60% 50%, transparent 30%, rgba(0,0,0,0.38) 100%)" }}
+      />
+
+      {/* bottom-left warm bleed */}
+      <div
+        className="absolute bottom-0 left-0 w-[600px] h-[400px] pointer-events-none"
+        style={{ background: `radial-gradient(ellipse at bottom left, rgba(120,18,18,0.35) 0%, transparent 65%)` }}
+      />
+
+      {/* left accent bar */}
+      <div
+        className="absolute left-0 top-0 bottom-0 w-[3px]"
+        style={{ background: `linear-gradient(to bottom, ${Maroon[500]}, transparent)` }}
       />
 
       {/* watermark */}
       <div
-        className="absolute top-1/2 -translate-y-1/2 font-black select-none pointer-events-none"
+        className="absolute select-none pointer-events-none"
         style={{
-          fontFamily: "'Georgia',serif",
-          fontSize: "28vw",
-          color: "rgba(255,255,255,0.006)",
+          fontFamily: "'Playfair Display', Georgia, serif",
+          fontSize: "32vw",
+          fontWeight: 900,
+          color: "rgba(255,255,255,0.03)",
           lineHeight: 1,
-          right: "-4vw",
+          right: "-6vw",
+          bottom: "-4vw",
         }}
       >
         {UNI.abbr}
       </div>
 
-      {/* left accent stripe */}
-      <div
-        className="absolute left-0 top-0 bottom-0 w-1"
-        style={{ background: `linear-gradient(to bottom, ${M[400]}, transparent)` }}
-      />
+      {/* ── Content ── */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-8 py-32">
+        <div className="max-w-3xl">
+          <Eyebrow light>Ikatan Alumni Resmi · Sejak 2025</Eyebrow>
 
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 pb-20 pt-36">
-        <Eyebrow light>Ikatan Alumni Resmi · Sejak 2025</Eyebrow>
-
-        <h1
-          className="text-[clamp(2.6rem,7vw,5.2rem)] font-black text-white leading-[1.06] mb-6"
-          style={{ fontFamily: "'Georgia',serif", letterSpacing: "-0.02em", textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}
-        >
-          Ikatan Alumni
-          <br />
-          <span style={{ color: "#f0a0a0" }}>{UNI.name}</span>
-        </h1>
-
-        <p className="text-white/60 text-lg max-w-xl mb-12 leading-relaxed">
-          {UNI.tagline} — menghubungkan lebih dari{" "}
-          <span className="text-white/85 font-semibold">{UNI.alumni}</span> lulusan matematika UNISBA.
-        </p>
-
-        <div className="flex flex-wrap gap-4 mb-20">
-          <button
-            onClick={() => document.getElementById("tentang")?.scrollIntoView({ behavior: "smooth" })}
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-md text-sm font-semibold transition-all hover:brightness-110"
-            style={{ background: "rgba(128,10,10,0.9)", color: "#fff", backdropFilter: "blur(4px)", border: "1px solid rgba(255,255,255,0.1)" }}
+          <h1
+            className="text-white leading-[1.04] mb-6"
+            style={{
+              fontFamily: "'Playfair Display', Georgia, serif",
+              fontSize: "clamp(2.8rem, 6.5vw, 5.5rem)",
+              fontWeight: 900,
+              letterSpacing: "-0.02em",
+              textShadow: "0 2px 40px rgba(0,0,0,0.4)",
+            }}
           >
-            Tentang IKAMU <span className="opacity-60">→</span>
-          </button>
-          <button
-            onClick={() => document.getElementById("program-kerja")?.scrollIntoView({ behavior: "smooth" })}
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-md text-sm font-semibold border transition-all hover:bg-white/5"
-            style={{ borderColor: "rgba(255,255,255,0.18)", color: "rgba(255,255,255,0.7)", backdropFilter: "blur(4px)" }}
-          >
-            Program Kerja
-          </button>
-        </div>
+            Ikatan Alumni
+            <br />
+            <span style={{ color: "#f2a8a8", fontStyle: "italic" }}>{UNI.name}</span>
+          </h1>
 
-        {/* stats row */}
-        <div
-          className="grid grid-cols-2 sm:grid-cols-4 rounded-xl overflow-hidden"
-          style={{
-            border: "1px solid rgba(255,255,255,0.07)",
-            background: "rgba(0,0,0,0.2)",
-            backdropFilter: "blur(8px)",
-          }}
-        >
-          {STATS.map((s, i) => (
-            <div
-              key={s.label}
-              className="px-6 py-5"
-              style={{ borderRight: i < STATS.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}
+          <p
+            className="text-lg leading-[1.8] mb-10"
+            style={{
+              color: "rgba(255,255,255,0.58)",
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 300,
+              maxWidth: "560px",
+            }}
+          >
+            {UNI.tagline} — menghubungkan lebih dari{" "}
+            <span style={{ color: "rgba(255,255,255,0.85)", fontWeight: 600 }}>{UNI.alumni}</span>{" "}
+            lulusan dari seluruh penjuru Indonesia dan dunia.
+          </p>
+
+          {/* CTA */}
+          <div className="flex flex-wrap gap-3 mb-16">
+            <button
+              onClick={() => document.getElementById("tentang")?.scrollIntoView({ behavior: "smooth" })}
+              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-lg text-sm font-semibold transition-all hover:brightness-110 hover:-translate-y-px"
+              style={{
+                background: Maroon[700],
+                color: "#fff",
+                fontFamily: "'Inter', sans-serif",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
+                border: `1px solid ${Maroon[600]}`,
+              }}
             >
-              <div className="text-2xl font-black text-white mb-0.5">{s.value}</div>
-              <div className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.35)" }}>{s.label}</div>
-            </div>
-          ))}
+              Tentang IKAMU
+              <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="2">
+                <path d="M3 8h10M9 4l4 4-4 4" />
+              </svg>
+            </button>
+            <button
+              onClick={() => document.getElementById("program-kerja")?.scrollIntoView({ behavior: "smooth" })}
+              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-lg text-sm font-medium transition-all hover:bg-white/8"
+              style={{
+                border: "1px solid rgba(255,255,255,0.16)",
+                color: "rgba(255,255,255,0.72)",
+                fontFamily: "'Inter', sans-serif",
+                backdropFilter: "blur(6px)",
+              }}
+            >
+              Program Kerja
+            </button>
+          </div>
+
+          {/* Stats */}
+          <div className="flex flex-wrap gap-8">
+            {STATS.map((s) => (
+              <div key={s.label}>
+                <div
+                  className="font-black text-white leading-none"
+                  style={{
+                    fontFamily: "'Playfair Display', Georgia, serif",
+                    fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)",
+                  }}
+                >
+                  {s.value}
+                </div>
+                <div
+                  className="mt-1"
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 11,
+                    fontWeight: 500,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.38)",
+                  }}
+                >
+                  {s.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* bottom fade */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, transparent, rgba(0,0,0,0.15))" }}
+      />
     </section>
   );
 }

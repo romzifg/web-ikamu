@@ -1,60 +1,76 @@
-import { M, N } from "@/lib/palette";
+import { Maroon, Neutral } from "@/lib/palette";
 import { UNI, ABOUT } from "@/lib/data";
 import Eyebrow from "@/components/ui/Eyebrow";
 
 export default function About({ dark }: { dark: boolean }) {
-  const bg   = dark ? N[900] : N[0];
-  const bg2  = dark ? N[800] : N[50];
-  const txt  = dark ? N[300] : N[600];
-  const sub  = dark ? N[400] : N[500];
-  const head = dark ? N[50]  : N[900];
-  const brd  = dark ? N[800] : N[200];
+  const bg = dark ? Neutral[900] : Neutral[0];
+  const bg2 = dark ? Neutral[850] ?? "#1e1b18" : Neutral[50];
+  const txt = dark ? Neutral[200] : Neutral[600];
+  const sub = dark ? Neutral[300] : Neutral[500];
+  const head = dark ? Neutral[50] : Neutral[900];
+  const brd = dark ? Neutral[800] : Neutral[200];
 
   return (
     <section id="tentang" style={{ background: bg }}>
 
-      {/* university banner */}
-      <div
-        className="border-b"
-        style={{ background: dark ? "#180303" : M[700], borderColor: dark ? "#300606" : M[800] }}
-      >
-        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+      {/* Banner */}
+      <div style={{ background: dark ? Maroon[950] : Maroon[700], borderBottom: `1px solid ${dark ? Maroon[900] : Maroon[800]}` }}>
+        <div className="max-w-6xl mx-auto px-8 py-5 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div
-              className="w-9 h-9 rounded-md flex items-center justify-center"
-              style={{ background: "rgba(255,255,255,0.12)" }}
+              className="w-10 h-10 rounded-lg flex items-center justify-center text-xl flex-shrink-0"
+              style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)" }}
             >
-              <span className="text-lg">🏛️</span>
+              🏛️
             </div>
             <div>
-              <div className="text-white font-bold text-sm">{UNI.name}</div>
-              <div className="text-white/50 text-xs">{UNI.city} · Berdiri {UNI.founded}</div>
+              <p className="text-white font-semibold text-sm leading-tight" style={{ fontFamily: "'Inter', sans-serif" }}>
+                {UNI.name}
+              </p>
+              <p className="text-white/45 text-xs mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>
+                {UNI.city} · Berdiri {UNI.founded}
+              </p>
             </div>
           </div>
-          <div>
-            <div className="text-white/40 text-[10px] uppercase tracking-widest">Singkatan</div>
-            <div className="text-white text-sm font-semibold">{UNI.abbr}</div>
+          <div className="hidden sm:flex items-center gap-8">
+            {[["Singkatan", UNI.abbr], ["Status", "Aktif 2025"]].map(([k, v]) => (
+              <div key={k}>
+                <p className="text-white/40 text-[10px] uppercase tracking-widest" style={{ fontFamily: "'Inter', sans-serif" }}>{k}</p>
+                <p className="text-white text-sm font-semibold mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>{v}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 py-24">
-        <div className="grid lg:grid-cols-[1fr_400px] gap-16 items-start">
+      {/* Main */}
+      <div className="max-w-6xl mx-auto px-8 py-24">
+        <div className="grid lg:grid-cols-[1fr_380px] gap-20 items-start">
 
-          {/* Left — text */}
+          {/* Left */}
           <div>
             <Eyebrow>Tentang Kami</Eyebrow>
             <h2
-              className="text-4xl lg:text-5xl font-black leading-tight mb-8"
-              style={{ fontFamily: "'Georgia',serif", color: head }}
+              className="leading-tight mb-8"
+              style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                fontSize: "clamp(2rem, 4vw, 3.2rem)",
+                fontWeight: 900,
+                color: head,
+                letterSpacing: "-0.01em",
+              }}
             >
               Satu Almamater,
               <br />
-              <em className="not-italic" style={{ color: M[700] }}>Satu Keluarga Besar</em>
+              <em className="not-italic" style={{ color: Maroon[700] }}>Satu Keluarga Besar</em>
             </h2>
 
             {ABOUT.map((p, i) => (
-              <p key={i} className="text-base leading-[1.9] mb-4" style={{ color: txt }}>
+              <p
+                key={i}
+                className="text-base leading-[1.9] mb-5"
+                style={{ color: txt, fontFamily: "'Inter', sans-serif", fontWeight: 400 }}
+              >
                 {p}
               </p>
             ))}
@@ -62,41 +78,90 @@ export default function About({ dark }: { dark: boolean }) {
             <div className="grid sm:grid-cols-2 gap-4 mt-10">
               {[
                 ["Silaturahmi", "Mempererat hubungan lintas angkatan dan program studi."],
-                ["Kontribusi",  "Aktif berkontribusi untuk almamater dan masyarakat."],
-                ["Jaringan",    "Menghubungkan alumni di berbagai wilayah nasional."],
+                ["Kontribusi", "Aktif berkontribusi untuk almamater dan masyarakat."],
+                ["Jaringan", "Menghubungkan alumni di berbagai wilayah nasional."],
                 ["Profesional", "Mendukung pertumbuhan karir setiap anggota alumni."],
               ].map(([t, d]) => (
-                <div key={t} className="p-4 rounded-lg border" style={{ background: bg2, borderColor: brd }}>
-                  <div className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: M[700] }}>
+                <div
+                  key={t}
+                  className="p-5 rounded-xl"
+                  style={{
+                    background: bg2,
+                    border: `1px solid ${brd}`,
+                    borderLeft: `3px solid ${Maroon[700]}`,
+                  }}
+                >
+                  <p
+                    className="text-[10px] font-semibold uppercase tracking-[0.18em] mb-2"
+                    style={{ color: Maroon[700], fontFamily: "'Inter', sans-serif" }}
+                  >
                     {t}
-                  </div>
-                  <div className="text-sm leading-relaxed" style={{ color: sub }}>{d}</div>
+                  </p>
+                  <p
+                    className="text-sm leading-relaxed"
+                    style={{ color: sub, fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {d}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Right — profile card */}
-          <div className="rounded-xl overflow-hidden" style={{ border: `1px solid ${brd}` }}>
-            <div className="h-1.5" style={{ background: `linear-gradient(90deg, ${M[700]}, ${M[400]})` }} />
-            <div className="p-7" style={{ background: bg2 }}>
-              <div className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: M[700] }}>
+          {/* Right — Profile Card */}
+          <div
+            className="rounded-2xl overflow-hidden"
+            style={{ border: `1px solid ${brd}`, boxShadow: dark ? "none" : "0 4px 32px rgba(0,0,0,0.06)" }}
+          >
+            <div className="h-1" style={{ background: `linear-gradient(90deg, ${Maroon[700]}, ${Maroon[400]})` }} />
+            <div className="p-8" style={{ background: bg2 }}>
+              <p
+                className="text-[10px] font-bold uppercase tracking-[0.22em] mb-6"
+                style={{ color: Maroon[700], fontFamily: "'Inter', sans-serif" }}
+              >
                 Profil Organisasi
+              </p>
+              <div className="space-y-0">
+                {[
+                  ["Nama Resmi", `IKAMU – ${UNI.abbr}`],
+                  ["Didirikan", "2025"],
+                  ["Keanggotaan", `${UNI.alumni} alumni`],
+                  ["Status", "Aktif & Berkembang"],
+                ].map(([k, v], i, a) => (
+                  <div
+                    key={k}
+                    className="flex items-center justify-between py-4"
+                    style={{ borderBottom: i < a.length - 1 ? `1px solid ${brd}` : "none" }}
+                  >
+                    <span
+                      className="text-sm"
+                      style={{ color: sub, fontFamily: "'Inter', sans-serif" }}
+                    >
+                      {k}
+                    </span>
+                    <span
+                      className="text-sm font-semibold text-right"
+                      style={{ color: head, fontFamily: "'Inter', sans-serif", maxWidth: "55%" }}
+                    >
+                      {v}
+                    </span>
+                  </div>
+                ))}
               </div>
-              {[
-                ["Nama Resmi",   `IKAM–${UNI.name}`],
-                ["Didirikan",    "2025"],
-                ["Keanggotaan",  `${UNI.alumni} alumni`],
-              ].map(([k, v], i, a) => (
-                <div
-                  key={k}
-                  className="flex justify-between py-3.5 text-sm"
-                  style={{ borderBottom: i < a.length - 1 ? `1px solid ${brd}` : "none" }}
-                >
-                  <span style={{ color: sub }}>{k}</span>
-                  <span className="font-semibold text-right max-w-[55%]" style={{ color: head }}>{v}</span>
-                </div>
-              ))}
+            </div>
+            <div
+              className="px-8 py-5"
+              style={{ background: dark ? Maroon[950] : Maroon[700] }}
+            >
+              <p className="text-[9px] text-white/40 uppercase tracking-widest mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>
+                Tagline
+              </p>
+              <p
+                className="text-white text-sm italic font-medium"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                &ldquo;{UNI.tagline}&rdquo;
+              </p>
             </div>
           </div>
 
